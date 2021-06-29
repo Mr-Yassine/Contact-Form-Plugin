@@ -5,8 +5,6 @@ La création d'un Plugin WordPress from scratch. Ce plugin va ajouter des foncti
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
-<img src="presentation.jpg" alt="mockup"/>
-
 
 ## Pré-requis
 
