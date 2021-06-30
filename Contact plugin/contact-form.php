@@ -2,8 +2,15 @@
 
 /**
  * Plugin Name: Contact form
- * Description: A short description of the plugin, as displayed in the Plugins section in the WordPress Admin.
+ * Plugin URI: https://github.com/Mr-Yassine/Contact-Form-Plugin.git
+ * Description: Simple WordPress Contact Form.
+ * Version: 1.0
+ * Author: Yassine BILAL
+ * Author URI: https://github.com/Mr-Yassine
  */
+
+wp_register_style( 'namespace', '/includes/css/style.css' );
+
 
 function form_plugin(){
 

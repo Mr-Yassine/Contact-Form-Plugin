@@ -7,6 +7,8 @@
 
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6f17665668.js" crossorigin="anonymous"></script>
+
     <title>Admin Dashboard</title>
 </head>
 <body>
@@ -30,21 +32,33 @@
         $result = mysqli_query($connection, $query);
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>
-                        <td>'. $row["Name"] . 
-                        '</td><td>' . $row["Email"] . 
-                        '</td><td>' . $row["Subject"] . 
-                        '</td><td>' . $row["Message"] . 
-                        '<td class="d-flex justify-content-end>
-                          <form id="response" action="" method="post">
-                            <button type="submit" class="btn btn-warning" name="response" onclick = "show_response()" ;>Response</button>
+                        <td>'. $row["Name"] . '</td>
+                        <td>' . $row["Email"] . '</td>
+                        <td>' . $row["Subject"] . '</td>
+                        <td>' . $row["Message"] . '</td>
+                        <td class="d-flex justify-content-end>
+
+                          <form  action="#" method="post">
+                            <button type="submit" class="btn btn-warning" name="response" onclick = "show_response()" ;> Reply <i class="fas fa-reply"></i> </button>
                           </form>&nbsp;
 
-                          <form action="" method="post">
-                            <button type="submit" class="btn btn-danger" name="submit" onclick = "show_delete()" ;>Delete</button>
+                          <form action="#" method="post">
+                            <input type="text" value="'.$row["id"].'" name="id" hidden>
+                            <button type="submit" class="btn btn-danger" name="delete" > Delete <i class="far fa-trash-alt"></i></button>
                           </form>
+
                         </td>
                      </tr>';
             }   
+
+        if(isset($_POST['delete'])){
+          $id=$_POST['id'];
+          $queryD="DELETE FROM contact WHERE id=$id";
+          mysqli_query($connection, $queryD);
+
+        }
+        
+        
     ?>
 
   </tbody>
@@ -56,7 +70,7 @@
 <!-- Response  -->
 <!----------------------------------------------------------------->
 
-<div id="response">
+<div id="response" style="display: none;">
   <div class="card" style="width: 35rem; height: 15rem;">
     <div class = "d-flex justify-content-between">
       <h2 class="card-title">Response </h2> 
@@ -68,15 +82,33 @@
     <div class="card-body d-flex justify-content-center align-items-center">
       <form action="#" method="POST" class="text-center align-items-center">
 
-        <p class="send_msg">  </p>
+        <p class="send_msg"> Write your response </p>
 
-          <button type="button" id="delete-btn" class="btn btn-danger" onclick="send()">
-            Send
-          </button> 
+        <textarea type= "text" name ="Response" class="textarea" placeholder = "Enter your response"></textarea>
+        <button type="button" name="send" class="btn btn-danger" onclick="send()">
+          Send
+        </button> 
+
       </form>
     </div>
   </div>
 </div>
+
+<?php
+
+if (isset ($_POST ['send'])){
+
+  $Response = sanitize_text_field($_POST['Response']);
+      
+  $to = '';
+  $subject = 'Test form reply';
+  $comment = ''.$name.' - '.$email.' - '.$subject.' - '.$message;
+      
+  // echo "<pre>"; print_r($_POST); echo "</pre>";
+  wp_mail($to, $subject, $comment);
+}
+
+?>
 
 
 
@@ -84,7 +116,7 @@
 <!-- Delete message -->
 <!----------------------------------------------------------------->
 
-<div id="delete">
+<div id="delete" style="display: none;">
   <div class="card" style="width: 35rem; height: 15rem;">
     <div class = "d-flex justify-content-around">
       <h2 class="card-title">Delete your message</h2> 
@@ -119,7 +151,7 @@
   }
 
   function send() {
-
+    
   }
 
   //delete popup
@@ -135,6 +167,27 @@
 
   }
 </script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+  .card {
+    margin: 0 auto;
+    background-color: lightcyan;
+  }
+
+  p {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+  }
+
+  .textarea {
+    width: 100%;
+  }
+
+
+
+</style>
 
 </body>
 </html>
